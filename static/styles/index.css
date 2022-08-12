@@ -102,13 +102,11 @@ select{
     padding: 12px 20px;
     margin: 8px 0;
     color: #D7D7EF;
-    border: 1px solid #ccc;
     border: 1px dashed rgba(255, 255, 255, 0.4);
     background-color: transparent;
     border-radius: 4px;
     box-sizing: border-box;
     text-align: center;
-    
 }
 select:focus {
   outline: none !important;
@@ -211,4 +209,8 @@ select:focus {
   100% {
     transform: rotate(360deg);
   }
+}
+
+option{
+  background: #3b3b3b;
 }
