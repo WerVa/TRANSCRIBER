@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>TRANSCRIBER</title>
+    {% include 'link.html' %}
+    {% block link %}
+    {% endblock %}
+  </head>
+  <body>
+    <h1 class="title"></i> TRANSCRIBER</h1>
+    <div id="speechContainer">
+      <form method="post" enctype="multipart/form-data" onsubmit="let x = document.getElementById('splash'); x.style.display = 'block'; let y = document.getElementById('loading'); y.style.display = 'block';  ">
+        <p>
+          min_silence_len:
+          <abbr
+            title="min_silence_len - (in ms) minimum length of a silence to be used for a split."
+          >
+            <i class="fa fa-question-circle"></i
+          ></abbr>
+          <input
+            class="slider"
+            type="range"
+            name="min_silence_len"
+            value="700"
+            min="0"
+            max="2000"
+            step="100"
+            oninput="msl.value = this.value"
+          />
+          <output id="msl">700</output>
+        </p>
+        <p>
+          silence_thresh:
+          <abbr
+            title="silence_thresh - (in dBFS) anything quieter than this will be considered silence."
+          >
+            <i class="fa fa-question-circle"></i>
+          </abbr>
+          <input
+            class="slider"
+            type="range"
+            name="silence_thresh"
+            value="-16"
+            min="-100"
+            max="100"
+            step="1"
+            oninput="st.value = this.value"
+          />
+          <output id="st">-16</output>
+        </p>
+        <p>
+          keep_silence:
+          <abbr
+            title="keep_silence - (in ms) leave some silence at the beginning and end of the chunks. Keeps the sound from sounding like it is abruptly cut off. When the length of the silence is less than the keep_silence duration it is split evenly between the preceding and following non-silent segments."
+          >
+            <i class="fa fa-question-circle"></i>
+          </abbr>
+          <input
+            class="slider"
+            type="range"
+            name="keep_silence"
+            value="700"
+            min="0"
+            max="2000"
+            step="100"
+            oninput="ks.value = this.value"
+          />
+          <output id="ks">700</output>
+        </p>
+        language:
+        <select name="lang">
+          <option value="en-US">English (United Kingdom)</option>
+          <option value="en-GB">English (United States)</option>
+          <option value="fr-FR">French</option>
+          <option value="de-DE">German</option>
+          <option value="pl-PL" selected>Polish</option>
+          <option value="es-ES">Spanish (Spain)</option>
+          <option value="es-US">SSpanish (United States)</option>
+        </select>
+        <p></p>
+        <div class="file-drop-area">
+          <span class="choose-file-button">Choose files</span>
+          <span class="file-message">or drag and drop files here</span>
+          <input class="file-input" type="file" type="file" name="file" />
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-light" id="trbtn">
+            TRANSCRIBE &nbsp <i class='fa-solid fa-file-waveform'></i> 
+        </button>
+        </div>
+      </form>
+      
+        <div class="lds-roller " id="splash" style="display: none;"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+          <p id="loading" style="display: none;">Loading...</p>
+      {% if transcript != "" %}
+      <div id="speechTranscriptContainer">
+        <h1 class="title">Transcript</h1>
+        <p id="infrmation">The number of possible errors: {{ error }}</p>
+        <p>
+          <a
+            class="btn btn-light"
+            href="{{ url_for('.download_file') }}"
+            role="button" id="trbtn"
+          >
+            DOWNLOAD &nbsp <i class="fa fa-download"></i>
+          </a>
+        </p>
+        <p id="speechText">{{ transcript }}</p>
+      </div>
+      {% endif %}
+  </body>
+</html>
